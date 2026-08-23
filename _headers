@@ -1,0 +1,9 @@
+/pgp/*
+  Content-Type: application/pgp-keys
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+
+/smime/*
+  Content-Type: application/pkix-cert
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
