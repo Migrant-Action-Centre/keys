@@ -14,7 +14,9 @@ Public certificates only. No secret key material. `.gitignore` blocks the format
 | Carries     | v4, v6, S/MIME, future key types | v4 OpenPGP only                             |
 | Per address | as many certs as needed          | exactly one                                 |
 
-This repo is the source of truth; WKD publishes a subset of it. When a certificate changes here and it is also in WKD, the other repo must be updated too; nothing enforces that automatically. A `tools/check-wkd-sync` script to catch drift is not written yet. Until it is, check by hand with `sq inspect` on both copies and compare fingerprints.
+This repo is the source of truth; WKD publishes a subset of it. When a certificate changes here and it is also in WKD, the other repo must be updated too; nothing enforces that automatically. 
+
+Run `tools/check-wkd-sync` to catch drift. For every `@migrantaction.ca` email UID in `pgp/`, it fetches what the live WKD actually serves and requires the fingerprint to match at least one local certificate for that address. The "at least one" is because v4/v6 pairs share an address and WKD carries only the v4. It fetches the live URL rather than the sibling checkout, so it also catches a certificate that was committed but never deployed. Exits non-zero on mismatch, so it drops into CI unchanged.
 
 ## Why both v4 and v6
 

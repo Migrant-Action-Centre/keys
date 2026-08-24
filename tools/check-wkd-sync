@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# check-wkd-sync — verify the live WKD serves certs that match this repo.
+#
+# This repo is the source of truth; WKD (Migrant-Action-Centre/pgp,
+# openpgpkey.DOMAIN) publishes the v4 subset of it. For every email UID
+# found in pgp/*.asc, fetch what WKD actually serves and require its
+# fingerprint to match at least one local cert holding that address.
+# "At least one" because v4/v6 pairs share an email and WKD carries
+# only the v4 — by design, not drift.
+#
+# Needs: sq, curl, python3. Reads public certs only; imports nothing.
+set -uo pipefail
+shopt -s nullglob
+
+DOMAIN=migrantaction.ca
+WKD_BASE="https://openpgpkey.$DOMAIN/.well-known/openpgpkey/$DOMAIN"
+
+cd "$(dirname "$0")/.." || exit 2
+tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
+fail=0
+
+zb32() { python3 - "$1" <<'PY'
+import hashlib, sys
+Z = "ybndrfg8ejkmcpqxot1uwisza345h769"
+d = hashlib.sha1(sys.argv[1].lower().encode()).digest()
+b = "".join(f"{x:08b}" for x in d)
+print("".join(Z[int(b[i:i+5], 2)] for i in range(0, len(b) - len(b) % 5, 5)))
+PY
+}
+
+pairs=$tmp/pairs
+: > "$pairs"
+
+files=(pgp/*.asc)
+if [ ${#files[@]} -eq 0 ]; then
+  echo "FAIL: No .asc files found in pgp/"
+  exit 1
+fi
+
+for f in "${files[@]}"; do
+  fp=$(sq inspect "$f" 2>/dev/null | awk '/Fingerprint/{print $2; exit}')
+  [ -n "$fp" ] || { echo "SKIP $f: sq could not parse"; fail=1; continue; }
+  sq inspect "$f" 2>/dev/null | grep -oE "<[^>]+@$DOMAIN>" | tr -d '<>' | tr '[:upper:]' '[:lower:]' | sort -u \
+    | while read -r email; do echo "$email $f $fp" >> "$pairs"; done
+done
+
+emails=$(awk '{print $1}' "$pairs" | sort -u)
+[ -n "$emails" ] || { echo "FAIL: no @$DOMAIN email UIDs found in pgp/"; exit 1; }
+
+for email in $emails; do
+  local_part=${email%%@*}
+  url="$WKD_BASE/hu/$(zb32 "$local_part")?l=$local_part"
+  if ! curl -fsS --max-time 20 -o "$tmp/wkd" "$url"; then
+    echo "FAIL $email: WKD fetch failed ($url)"; fail=1; continue
+  fi
+  served=$(sq inspect "$tmp/wkd" 2>/dev/null | awk '/Fingerprint/{print $2; exit}')
+  if [ -z "$served" ]; then
+    echo "FAIL $email: WKD response is not a parseable cert"; fail=1; continue
+  fi
+  if grep -q "^$email .* $served$" "$pairs"; then
+    match=$(awk -v e="$email" -v s="$served" '$1==e && $3==s {print $2; exit}' "$pairs")
+    echo "OK   $email: WKD serves $served ($match)"
+  else
+    echo "FAIL $email: WKD serves $served, which matches NO cert in this repo"
+    awk -v e="$email" '$1==e {print "       local: "$3"  ("$2")"}' "$pairs"
+    fail=1
+  fi
+done
+
+exit $fail
