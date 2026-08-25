@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public keys | Migrant Action Centre</title>
+<meta name="description" content="Public OpenPGP and S/MIME certificates for migrantaction.ca, with fingerprints, algorithms and expiry dates.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link rel="preload" href="/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fjalla-one-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#certificates">Skip to the certificates</a>
+<main id="main">
+
+  <h1>Our public keys</h1>
+  <p class="lede">
+    These are the public certificates for <code>migrantaction.ca</code>. Use them to encrypt what
+    you send us, or to check that something signed in our name actually came from us. Everything
+    on this page is public certificate material. No secret keys live here, and none ever will.
+  </p>
+
+  <section class="callout" aria-labelledby="secure-heading">
+    <h2 id="secure-heading">If you need to reach us safely, start here</h2>
+    <p>
+      Encrypted mail protects what you write. It doesn't hide that you wrote to us, or when, or
+      from where, and for a lot of people that's the part that actually puts them at risk. If
+      that's you, please don't email us at all. Use our secure line instead.
+    </p>
+    <p>
+      <a href="https://secure.migrantaction.ca"><strong>secure.migrantaction.ca</strong></a> runs
+      GlobaLeaks. You can tell us something without giving a name, an email address, or an
+      account. You'll get a 16 digit receipt at the end. Hold onto it, because it's how you come
+      back to read our reply or add anything you left out.
+    </p>
+    <p>Better still, reach the same service through Tor Browser:</p>
+<pre><code>http://6j463ov2a5fg5hqnqg2725lzv46oj46e4tqaztoj76246smeuofzpjid.onion</code></pre>
+    <p>
+      It's the same place either way. Going through Tor means your network, and anyone watching
+      it, doesn't get to see where you went.
+    </p>
+  </section>
+
+  <aside class="note" role="note" aria-labelledby="verify-first">
+    <p>
+      <strong id="verify-first">Downloading a key isn't the same as trusting it.</strong>
+      Whoever controls this page controls what it says, and that could include someone who wants
+      to read your mail. So before you rely on any key below, check its fingerprint against one
+      you got somewhere else. In person. Over a call where you know the voice. From someone who
+      has already checked it themselves. Surveillance isn't an abstract worry for a lot of people
+      in our community, and this is the step that protects you.
+    </p>
+  </aside>
+
+  <h2 id="certificates">Our organizational anchor</h2>
+  <p>
+    This key signs other keys, and that's the whole of what it does. It carries no email address
+    and no encryption subkey, so there's nothing you can send to it. What it can do is vouch for
+    people. When it signs someone's certificate, that signature ties them back to the Centre.
+    Having no address is also why it will never turn up in an automatic lookup, since those work
+    by email and this key doesn't have one.
+  </p>
+
+  <div class="cert">
+    <div class="cert-head">
+      <h3>Migrant Action Centre</h3>
+      <span class="tag">OpenPGP v4</span>
+      <span class="dl"><a href="/pgp/mac-org-v4.asc" download>Download .asc<span class="visually-hidden">, mac-org-v4.asc</span></a></span>
+    </div>
+    <dl>
+      <dt>Fingerprint</dt><dd><samp class="fp">4383A9D6A304C721EED4742B4A08EFC6E8832FBB</samp></dd>
+      <dt>Algorithm</dt><dd>EdDSA (ed25519)</dd>
+      <dt>Created</dt><dd>2026-06-09</dd>
+      <dt>Expires</dt><dd>2031-06-08</dd>
+    </dl>
+  </div>
+
+  <div class="cert">
+    <div class="cert-head">
+      <h3>Migrant Action Centre</h3>
+      <span class="tag">OpenPGP v6</span>
+      <span class="dl"><a href="/pgp/mac-org-v6.asc" download>Download .asc<span class="visually-hidden">, mac-org-v6.asc</span></a></span>
+    </div>
+    <dl>
+      <dt>Fingerprint</dt><dd><samp class="fp">3DFDDC0FDA8ACF1B84C9D4C53784CA135B7FEC099ED50CD16F9A5B82EBABB186</samp></dd>
+      <dt>Algorithm</dt><dd>ML-DSA-87 + Ed448</dd>
+      <dt>Created</dt><dd>2026-07-22</dd>
+      <dt>Expires</dt><dd>2029-07-21</dd>
+    </dl>
+  </div>
+
+  <h2>Adi (adi@migrantaction.ca)</h2>
+  <p>
+    Both OpenPGP certificates below are signed by the anchor of the same version. The v4 by
+    <code>4383A9D6</code>, the v6 by <code>3DFDDC0F</code>.
+  </p>
+
+  <div class="cert">
+    <div class="cert-head">
+      <h3>Adi</h3>
+      <span class="tag">OpenPGP v4</span>
+      <span class="dl"><a href="/pgp/adi-v4.asc" download>Download .asc<span class="visually-hidden">, adi-v4.asc</span></a></span>
+    </div>
+    <dl>
+      <dt>Fingerprint</dt><dd><samp class="fp">B16FE02FECC50042523E1CE315986AC8EBD7AFDA</samp></dd>
+      <dt>Algorithm</dt><dd>EdDSA (ed25519) signing, ECDH (cv25519) encryption</dd>
+      <dt>Created</dt><dd>2026-06-09</dd>
+      <dt>Expires</dt><dd>The primary runs to 2031-06-08, but the <strong>subkeys expire 2028-06-08</strong>, and that's the date that matters in practice</dd>
+      <dt>Lookup</dt><dd>Also published to Web Key Directory</dd>
+    </dl>
+  </div>
+
+  <div class="cert">
+    <div class="cert-head">
+      <h3>Adi</h3>
+      <span class="tag">OpenPGP v6</span>
+      <span class="dl"><a href="/pgp/adi-v6.asc" download>Download .asc<span class="visually-hidden">, adi-v6.asc</span></a></span>
+    </div>
+    <dl>
+      <dt>Fingerprint</dt><dd><samp class="fp">ED3698D8741DE9C416E27B14E9AB5EAD0AE3223EC97523567C42A782D381C57C</samp></dd>
+      <dt>Algorithm</dt><dd>ML-DSA-65 + Ed25519 signing, ML-KEM-768 + X25519 encryption</dd>
+      <dt>Created</dt><dd>2026-07-25</dd>
+      <dt>Expires</dt><dd>2028-07-25</dd>
+      <dt>Lookup</dt><dd>Deliberately not in Web Key Directory. There's more on this below.</dd>
+    </dl>
+  </div>
+
+  <div class="cert">
+    <div class="cert-head">
+      <h3>Adi Khaitan</h3>
+      <span class="tag">S/MIME</span>
+      <span class="dl"><a href="/smime/adi.crt" download>Download .crt<span class="visually-hidden">, adi.crt</span></a></span>
+    </div>
+    <dl>
+      <dt>SHA-256</dt><dd><samp class="fp">71:8C:91:E3:30:43:04:B6:78:9E:2C:61:51:D2:C6:25:E9:F7:B3:79:6D:E9:A6:44:05:86:7F:3F:03:6E:03:BB</samp></dd>
+      <dt>Serial</dt><dd><samp class="fp">503E9A60B1A6A359455A241231AB16A4</samp></dd>
+      <dt>Issuer</dt><dd>SSL.com Client Certificate Intermediate CA RSA R2</dd>
+      <dt>Validation</dt><dd>Sponsor-validated, policy OID <code>2.23.140.1.5.3.2</code>. That means the CA checked both the individual and their affiliation with Migrant Action Centre Inc. as a registered entity. Read it off the OID rather than taking our word for it.</dd>
+      <dt>Entity</dt><dd>Migrant Action Centre Inc., organizationIdentifier <code>NTRCA-97082</code></dd>
+      <dt>Key</dt><dd>RSA 3072-bit</dd>
+      <dt>Valid</dt><dd>2026-03-28 to <strong>2027-03-20</strong></dd>
+      <dt>Contents</dt><dd>PEM holding the leaf certificate and SSL.com's intermediate. We leave the root out on purpose. It only means anything if it's already in your trust store, and nobody should be installing a CA root they got off a website.</dd>
+    </dl>
+  </div>
+
+  <h2>Which one do I need?</h2>
+  <p>
+    Three formats, because mail software has never managed to agree on one. Find your client below
+    and take what it can actually read.
+  </p>
+  <table>
+    <thead>
+      <tr><th scope="col">If you use</th><th scope="col">Take</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Apple Mail, Outlook, most workplace or institutional mail</td><td>The S/MIME certificate</td></tr>
+      <tr><td>GnuPG, Enigmail, Thunderbird, Proton, Mailvelope</td><td>The <strong>v4</strong> OpenPGP certificate</td></tr>
+      <tr><td>Sequoia (<code>sq</code>), or anything that advertises RFC 9580 support</td><td>The <strong>v6</strong> OpenPGP certificate, and we'd prefer it</td></tr>
+      <tr><td>You're not sure</td><td>Take the v4 OpenPGP certificate. It works nearly everywhere.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Importing</h2>
+  <p>
+    The easiest route is to let your software fetch the key for you. Web Key Directory hands over
+    the v4 certificate to anyone who looks up the address, and plenty of mail clients do this
+    quietly the first time you write to us. From a terminal:
+  </p>
+<pre><code>sq network wkd search adi@migrantaction.ca</code></pre>
+  <p>
+    That prints the fingerprint it found and labels the certificate <code>UNAUTHENTICATED</code>,
+    which is Sequoia telling you it hasn't verified anything on your behalf. Check what it prints
+    against this page before you go further.
+  </p>
+  <p>
+    If you'd rather do it by hand, grab a certificate from the links above, look at it, and import
+    it once the fingerprint matches.
+  </p>
+<pre><code>sq inspect adi-v6.asc
+sq cert import adi-v6.asc</code></pre>
+
+  <h3>GnuPG will refuse the v6 certificates</h3>
+  <p>Hand a v6 certificate to GnuPG and this is what you get:</p>
+<pre><code>gpg: packet(6) with unknown version 6
+gpg: read_block: read error: Invalid packet</code></pre>
+  <p>
+    Your download is fine and nothing is corrupted. GnuPG follows LibrePGP instead of RFC 9580,
+    and it rejects v6 outright rather than falling back to something it understands. This is a
+    disagreement between standards, not a feature still on its way. If GnuPG is what you have,
+    take the v4 certificate and you'll be fine.
+  </p>
+<pre><code>gpg --import adi-v4.asc
+gpg --fingerprint adi@migrantaction.ca</code></pre>
+
+  <h2>Automatic lookup</h2>
+  <p>
+    Web Key Directory is the thing that lets mail clients resolve a key from an address without
+    anyone being asked. Ours lives at <code>openpgpkey.migrantaction.ca</code> and runs out of its
+    own repository. It carries v4 OpenPGP only, one certificate per address, because the protocol
+    can't hold two keys for the same person and doesn't carry S/MIME at all.
+  </p>
+  <p>
+    <strong>This page is the source of truth.</strong> Web Key Directory publishes a subset of
+    what's listed here, and anything it serves has to match something on this page. If the two
+    ever disagree, believe this page and <a href="mailto:adi@migrantaction.ca">tell us</a>.
+  </p>
+
+  <h2>Something looks wrong?</h2>
+  <p>
+    If a fingerprint here doesn't match one you were handed elsewhere, tell us, and hold off on
+    using that key until it's sorted. Same goes if a certificate won't verify, or if you have any
+    reason at all to think a key has been compromised. You won't be wasting anyone's time. A bad
+    key is worth catching early, and we would much rather hear from you twice than not at all.
+  </p>
+  <p>
+    Email <a href="mailto:adi@migrantaction.ca">adi@migrantaction.ca</a> or raise it on the
+    repository. If what worries you is this page itself, reach us some other way.
+  </p>
+
+  <footer role="contentinfo">
+    <p>
+      Full register with renewal dates: <a href="https://github.com/Migrant-Action-Centre/keys/blob/main/KEYS.md">KEYS.md</a> ·
+      Repository: <a href="https://github.com/Migrant-Action-Centre/keys">Migrant-Action-Centre/keys</a> ·
+      Main site: <a href="https://migrantaction.ca">migrantaction.ca</a>
+    </p>
+    <p>
+      This page runs no scripts and makes no third party requests. The stylesheet and fonts are
+      served from this domain, so reading it tells nobody but us that you were here.
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>
