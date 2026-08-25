@@ -1,3 +1,27 @@
+# Cloudflare Pages applies EVERY matching rule and concatenates the results, so
+# a header name set in two overlapping blocks is sent twice. Each name below is
+# therefore set in exactly one block: security headers here, content headers in
+# the per-directory blocks.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'none'; style-src 'self'; font-src 'self'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+
+# The landing page is self-contained: same-origin CSS, self-hosted fonts, a
+# data: favicon, no scripts and no third-party origins. default-src 'none'
+# therefore covers script-src and connect-src without naming them. Because the
+# CSS lives in styles.css rather than an inline <style>, style-src is 'self'
+# and not 'unsafe-inline'. Keep it that way, because moving CSS back inline would
+# force the weaker policy.
+# Cross-Origin-Resource-Policy is cross-origin on purpose. It has to agree with
+# the Access-Control-Allow-Origin below, or browser-based verifiers fetching a
+# certificate get blocked by CORP after passing CORS.
+
 /pgp/*
   Content-Type: application/pgp-keys
   Access-Control-Allow-Origin: *
@@ -11,3 +35,11 @@
 /tools/*
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
+
+# Fonts are content-addressed by Google's filename and never edited in place,
+# so they can be cached hard. Unlike the certificates, a stale copy is harmless.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/styles.css
+  Cache-Control: public, max-age=3600
