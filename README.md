@@ -33,7 +33,7 @@ That is a standards split, not a feature still landing. Do not remove the v4 cer
 
     sq cert export --cert <fingerprint> > pgp/<name>.asc
 
-Always the full fingerprint, never a key ID — key IDs are short enough to collide.
+Always the full fingerprint, never a key ID. Key IDs are short enough to collide.
 
 Never paste armored text into a web form or CMS field. The blank line after the `-----BEGIN-----` header gets collapsed on paste; GnuPG then rejects the whole block while Sequoia silently accepts it, so it looks fine right up until it reaches the person who needs it. Commit the file and  link to its URL.
 
@@ -43,7 +43,7 @@ Then update KEYS.md, and the Keys entry in Webflow, in the same commit.
 
 ### S/MIME
 
-Download the chain from the CA (any PEM option — "single bundle" or "single certificates"). It arrives as leaf + intermediate + root. Drop the root:
+Download the chain from the CA (any PEM option: "single bundle" or "single certificates"). It arrives as leaf + intermediate + root. Drop the root:
 
     awk '/BEGIN CERTIFICATE/{n++} n<3' <downloaded> > smime/[name].crt
 

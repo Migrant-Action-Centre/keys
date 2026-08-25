@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# check-wkd-sync — verify the live WKD serves certs that match this repo.
+# check-wkd-sync: verify the live WKD serves certs that match this repo.
 #
 # This repo is the source of truth; WKD (Migrant-Action-Centre/pgp,
 # openpgpkey.DOMAIN) publishes the v4 subset of it. For every email UID
 # found in pgp/*.asc, fetch what WKD actually serves and require its
 # fingerprint to match at least one local cert holding that address.
 # "At least one" because v4/v6 pairs share an email and WKD carries
-# only the v4 — by design, not drift.
+# only the v4, by design, not drift.
 #
 # Needs: sq, curl, python3. Reads public certs only; imports nothing.
 set -uo pipefail

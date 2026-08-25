@@ -1,5 +1,5 @@
 # Everything in this repo is served publicly at keys.migrantaction.ca.
-# Public certificates only — never key material.
+# Public certificates only, never key material.
 *.p12
 *.pfx
 *.key

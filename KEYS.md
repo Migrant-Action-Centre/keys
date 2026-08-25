@@ -20,7 +20,7 @@ Certification only. No email address or encryption subkey: you cannot encrypt to
 | Expires     | 2031-06-08                                 | 2029-07-21                                                         |
 | File        | `pgp/mac-org-v4.asc`                       | `pgp/mac-org-v6.asc`                                               |
 
-## Adi — adi@migrantaction.ca
+## Adi (adi@migrantaction.ca)
 
 | | v4 | v6 |
 |---|---|---|
@@ -29,7 +29,7 @@ Certification only. No email address or encryption subkey: you cannot encrypt to
 | Created | 2026-06-09 | 2026-07-25 |
 | Expires | 2031-06-08 primary, **subkeys 2028-06-08** | 2028-07-25 |
 | File | `pgp/adi-v4.asc` | `pgp/adi-v6.asc` |
-| In WKD | yes — `hu/sxwx66sba9uicaxbcfjkmz8b9h5k8aky` | no, deliberately |
+| In WKD | yes, `hu/sxwx66sba9uicaxbcfjkmz8b9h5k8aky` | no, deliberately |
 
 Both are certified by the matching-version MAC anchor: v4 by `4383A9D6`, v6 by `3DFDDC0F`.
 
@@ -53,7 +53,7 @@ Sponsor-validated means the CA verified both the individual and the affiliation 
 | Date | What |
 |---|---|
 | 2027-03-20 | Adi S/MIME expires |
-| 2028-06-08 | Adi v4 **subkeys** expire — practical end of life, not 2031 |
+| 2028-06-08 | Adi v4 **subkeys** expire. Practical end of life, not 2031 |
 | 2028-07-25 | Adi v6 expires |
 | 2029-07-21 | MAC v6 anchor expires |
 | 2031-06-08 | MAC v4 anchor expires |
