@@ -281,6 +281,14 @@ dd { margin: 0; font-size: .93rem; min-width: 0; }
   line-height: 1.5;
 }
 
+.fineprint {
+  font-size: .92rem;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+  padding-top: .8rem;
+  margin-top: 1.5rem;
+}
+
 .callout {
   background: var(--card);
   border: 1px solid var(--rule);

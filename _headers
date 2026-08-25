@@ -10,14 +10,17 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'none'; style-src 'self'; font-src 'self'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
 
-# The landing page is self-contained: same-origin CSS, self-hosted fonts, a
-# data: favicon, no scripts and no third-party origins. default-src 'none'
-# therefore covers script-src and connect-src without naming them. Because the
-# CSS lives in styles.css rather than an inline <style>, style-src is 'self'
-# and not 'unsafe-inline'. Keep it that way, because moving CSS back inline would
-# force the weaker policy.
+# The landing page ships no JavaScript of its own, but Cloudflare injects an
+# email-decode script from same-origin /cdn-cgi/scripts/ to undo Scrape Shield's
+# address obfuscation. script-src 'self' lets that run, so readers see real
+# addresses instead of "[email protected]"; without it the placeholder is what
+# everyone gets, including in the copyable sq and gpg commands. 'self' still
+# blocks the cross-origin Cloudflare Insights beacon.
+#
+# style-src is 'self' rather than 'unsafe-inline' because the CSS lives in
+# styles.css; moving it back inline would force the weaker policy.
 # Cross-Origin-Resource-Policy is cross-origin on purpose. It has to agree with
 # the Access-Control-Allow-Origin below, or browser-based verifiers fetching a
 # certificate get blocked by CORP after passing CORS.
