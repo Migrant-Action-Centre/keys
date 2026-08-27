@@ -6,7 +6,7 @@ Served at <https://keys.migrantaction.ca>.
 
 The web key directory (WKD), for automatic machine lookup, is a **separate repo**: `Migrant-Action-Centre/pgp` → `openpgpkey.migrantaction.ca`. WKD is deployed using the advanced method.
 
-**This repo is the source of truth.** WKD publishes the v4 subset of what is here: it cannot carry multiple keys for the same address or S/MIME, and serves exactly one certificate per address. Anything published there must match something here.
+**WKD publishes a subset of this register.** It cannot carry multiple keys for the same address and does not carry S/MIME, and it serves exactly one certificate per address, so it holds the v4 certificates only. Anything it serves should match a certificate below. If it does not, one of the two is out of date and neither should be used until that is settled.
 
 ## Migrant Action Centre: trust anchor
 
@@ -57,3 +57,13 @@ Sponsor-validated means the CA verified both the individual and the affiliation 
 | 2028-07-25 | Adi v6 expires |
 | 2029-07-21 | MAC v6 anchor expires |
 | 2031-06-08 | MAC v4 anchor expires |
+
+## Reporting a problem
+
+If a fingerprint here does not match one you were given elsewhere, or a certificate will not verify, stop using it until the discrepancy is resolved. This applies to anything the WKD serves that does not match a certificate above.
+
+Report it two ways where possible: open an issue on `Migrant-Action-Centre/keys`, which keeps it on the record, and reach a person at contact@migrantaction.ca.
+
+To report without attaching a name to it, use <https://secure.migrantaction.ca>, or the same service as an onion:
+
+    http://6j463ov2a5fg5hqnqg2725lzv46oj46e4tqaztoj76246smeuofzpjid.onion

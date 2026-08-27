@@ -14,9 +14,19 @@ Public certificates only. No secret key material. `.gitignore` blocks the format
 | Carries     | v4, v6, S/MIME, future key types | v4 OpenPGP only                             |
 | Per address | as many certs as needed          | exactly one                                 |
 
-This repo is the source of truth; WKD publishes a subset of it. When a certificate changes here and it is also in WKD, the other repo must be updated too; nothing enforces that automatically. 
+Neither copy is automatically correct. This repo is the broader register: it carries v6, S/MIME and the organizational anchor, none of which WKD can hold, and it can carry several certificates for one address. That is a claim about coverage, not about which side to believe when the two disagree.
 
-Run `tools/check-wkd-sync` to catch drift. For every `@migrantaction.ca` email UID in `pgp/`, it fetches what the live WKD actually serves and requires the fingerprint to match at least one local certificate for that address. The "at least one" is because v4/v6 pairs share an address and WKD carries only the v4. It fetches the live URL rather than the sibling checkout, so it also catches a certificate that was committed but never deployed. Exits non-zero on mismatch, so it drops into CI unchanged.
+In practice this repo is the likelier one to be stale. Publishing to WKD is `sq network wkd publish` and a push. Updating here means exporting the certificate, editing KEYS.md, editing index.html, updating the Keys entry in Webflow, and a signed commit. The heavier path is the one that gets skipped, so a mismatch more often means this repo is behind than that WKD is serving something wrong. Establish which certificate is actually current before changing either side, and do not reconcile by copying this repo over WKD out of habit.
+
+Run `tools/check-wkd-sync` to catch drift. For every `@migrantaction.ca` email UID in `pgp/`, it fetches what the live WKD actually serves and requires the fingerprint to match at least one local certificate for that address. The "at least one" is because v4/v6 pairs share an address and WKD carries only the v4. It fetches the live URL rather than the sibling checkout, so it also catches a certificate that was committed but never deployed. Exits non-zero on mismatch, so it drops into CI unchanged. A failure usually means this repo is behind rather than that WKD is wrong; read the fingerprint it reports and confirm against the key material before deciding which side to change.
+
+### What the landing page tells visitors
+
+`index.html` deliberately does not tell readers to believe this page when it disagrees with WKD. A visitor cannot distinguish ordinary drift from any other cause, and a page instructing people to trust it is worth nothing precisely when the page is the thing that is wrong. So it says to stop using both copies until the mismatch is resolved, then to report it two ways: an issue on this repo, which keeps it on the record whether or not we act on it, and a person at contact@migrantaction.ca. `secure.migrantaction.ca` and its onion service are offered for reporting without attaching a name.
+
+The page telling readers to stop using both copies is deliberate, and it matches the fact that neither side is automatically correct. Do not replace it with a rule preferring one over the other, and do not put the maintenance detail above on the public page.
+
+Certificate identity and contact are separate. The `<h2>` heading, the `sq network wkd search` argument and the `gpg --fingerprint` argument all name adi@migrantaction.ca because that is the UID on the certificate and what WKD is keyed on. Reporting goes to contact@migrantaction.ca. Do not unify them; changing the lookup arguments breaks WKD resolution and mislabels the certificate.
 
 ## Why both v4 and v6
 
@@ -65,3 +75,17 @@ Signed with the appropriate @migrantaction.ca email's PGP key supported by GitHu
 ## Serving
 
 `_headers` sets `application/pgp-keys` for `/pgp/*` and `application/pkix-cert` for `/smime/*`. The S/MIME file is PEM containing the leaf plus SSL.com's intermediate `pkix-cert` is strictly the DER type. Kept because it reliably triggers a download rather than rendering as text, and macOS keys off the `.crt` extension regardless. Both get `Access-Control-Allow-Origin: *` so browser-based verifiers can fetch them, and a short `max-age` so a revocation propagates in minutes rather than being cached as current.
+
+### Security headers
+
+`_headers` sets a Content-Security-Policy on every response. Each header name appears in exactly one block, because Cloudflare Pages applies every matching rule and concatenates the results, so a name repeated across two overlapping blocks is sent twice.
+
+`Cross-Origin-Resource-Policy` is `cross-origin` so that it agrees with the `Access-Control-Allow-Origin` above. `same-origin` would block browser-based verifiers after they had already passed CORS, which defeats the point of setting CORS on the certificate directories at all.
+
+`style-src` is `'self'` rather than `'unsafe-inline'` because the stylesheet lives in `styles.css`. Moving it back inline would force the weaker policy.
+
+### Email obfuscation
+
+Cloudflare's Scrape Shield rewrites email addresses in HTML responses and injects a decoder from same-origin `/cdn-cgi/scripts/` to restore them in the browser. The policy therefore sets `script-src 'self'`. Under `default-src 'none'` alone the decoder is blocked, the placeholder is never replaced, and every reader sees `[email protected]` permanently, including inside the `sq` and `gpg` commands they are meant to copy and run. `script-src 'self'` still blocks the cross-origin Cloudflare Insights beacon, which is what keeps the page's claim about third party requests true; relax it and that sentence in the footer becomes false.
+
+Obfuscation only rewrites HTML, so `KEYS.md` is served with its addresses intact. The page links it as the fallback for anyone browsing without JavaScript, which is why the reporting addresses and the onion appear there as well. Keep them in sync.
